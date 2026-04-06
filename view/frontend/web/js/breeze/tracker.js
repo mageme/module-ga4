@@ -1,11 +1,10 @@
 (function () {
     'use strict';
 
-    window.dataLayer = window.dataLayer || [];
-
-    const track = (event, ecommerce) => {
-        window.dataLayer.push({ ecommerce: null });
-        window.dataLayer.push({ event, ecommerce });
+    const track = (event, params) => {
+        if (typeof gtag === 'function') {
+            gtag('event', event, params);
+        }
     };
 
     /**
@@ -26,27 +25,14 @@
             return;
         }
 
-        if (event === 'Product Viewed') {
-            track('view_item', data);
-            return;
-        }
+        const eventMap = {
+            'Product Viewed': 'view_item',
+            'Checkout Started': 'begin_checkout',
+            'view_cart': 'view_cart',
+            'search': 'search',
+        };
 
-        if (event === 'Checkout Started') {
-            track('begin_checkout', data);
-            return;
-        }
-
-        if (event === 'view_cart') {
-            track('view_cart', data);
-            return;
-        }
-
-        if (event === 'search') {
-            window.dataLayer.push({ event: 'search', search_term: data.search_term });
-            return;
-        }
-
-        track(event, data);
+        track(eventMap[event] || event, data);
     };
 
     /**
@@ -148,9 +134,7 @@
         try {
             const events = JSON.parse(atob(cookieValue));
             if (Array.isArray(events)) {
-                events.forEach((e) => {
-                    window.dataLayer.push({ event: e.event, ...e.data });
-                });
+                events.forEach((e) => track(e.event, e.data));
             }
         } catch (err) { /* ignore malformed cookie */ }
         $.cookies.remove(cookieName, { path: '/' });

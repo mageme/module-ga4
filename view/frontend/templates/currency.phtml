@@ -1,4 +1,29 @@
 <?php
 /** @var \MageMe\GA4\Block\Currency $block */
+$measurementId = $block->escapeJs($block->getMeasurementId());
+$currency = $block->escapeJs($block->getCurrencyCode());
 ?>
-<script>window.mgmGa4Currency = '<?= $block->escapeJs($block->getCurrencyCode()) ?>';</script>
+<script>
+window.mgmGa4Currency = '<?= $currency ?>';
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '<?= $measurementId ?>', {send_page_view: false});
+
+(function() {
+    var loaded = false;
+    function loadGtag() {
+        if (loaded) return;
+        loaded = true;
+        var s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=<?= $measurementId ?>';
+        s.async = true;
+        document.head.appendChild(s);
+    }
+    var events = ['scroll', 'click', 'touchstart', 'mousemove', 'keydown'];
+    events.forEach(function(e) {
+        document.addEventListener(e, loadGtag, {once: true, passive: true});
+    });
+    setTimeout(loadGtag, 3500);
+})();
+</script>
