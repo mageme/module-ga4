@@ -67,6 +67,8 @@ class ViewItemList extends Template
                 'name' => $product->getName(),
                 'price' => $price,
                 'sku' => $product->getSku(),
+                'url' => $product->getProductUrl(),
+                'index' => $index,
             ];
             $index++;
         }

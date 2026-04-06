@@ -18,13 +18,29 @@ Sends ecommerce events using `zaraz.ecommerce()` on the client side, with option
 
 ## Events
 
-| Event | Page |
-|-------|------|
+### Ecommerce
+
+| Event | Trigger |
+|-------|---------|
 | Product Viewed | Product detail page |
-| Add to Cart | Any page (AJAX listener) |
 | Product List Viewed | Category page |
+| Product Clicked | Product link click in listing |
+| Add to Cart | Any page (AJAX listener) |
+| Remove from Cart | Minicart item removal |
+| View Cart | Cart page |
 | Checkout Started | Checkout page |
 | Purchase | Order success page |
+| Refund | Credit Memo creation (server-side via MP) |
+
+### Other
+
+| Event | Trigger |
+|-------|---------|
+| search | Catalog search results page |
+| login | Customer login |
+| sign_up | Customer registration |
+| add_to_wishlist | Product added to wishlist |
+| add_to_compare | Product added to comparison |
 
 ## Installation
 

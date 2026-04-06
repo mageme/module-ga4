@@ -7,4 +7,20 @@
         <observer name="mageme_ga4_measurement_protocol"
                   instance="MageMe\GA4\Observer\SendMeasurementProtocolObserver"/>
     </event>
+    <event name="customer_register_success">
+        <observer name="mageme_ga4_customer_register"
+                  instance="MageMe\GA4\Observer\CustomerRegisterObserver"/>
+    </event>
+    <event name="customer_login">
+        <observer name="mageme_ga4_customer_login"
+                  instance="MageMe\GA4\Observer\CustomerLoginObserver"/>
+    </event>
+    <event name="wishlist_add_product">
+        <observer name="mageme_ga4_wishlist_add"
+                  instance="MageMe\GA4\Observer\WishlistAddObserver"/>
+    </event>
+    <event name="catalog_product_compare_add_product">
+        <observer name="mageme_ga4_compare_add"
+                  instance="MageMe\GA4\Observer\CompareAddObserver"/>
+    </event>
 </config>

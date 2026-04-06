@@ -1,0 +1,21 @@
+<?php
+/** @var \MageMe\GA4\Block\ViewCart $block */
+if (!$block->isEnabled()) {
+    return;
+}
+
+$trackingData = $block->getTrackingData();
+if (!$trackingData) {
+    return;
+}
+?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "MageMe_GA4/js/tracker": {
+            "event": "view_cart",
+            "data": <?= /* @noEscape */ $trackingData ?>
+        }
+    }
+}
+</script>

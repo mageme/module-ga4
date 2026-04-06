@@ -35,6 +35,25 @@ class MeasurementProtocol
         $this->logger = $logger;
     }
 
+    /**
+     * Send any GA4 event via Measurement Protocol.
+     * Used for server-side events (refund, etc.) where no client_id is available.
+     */
+    public function sendEvent(string $eventName, array $params, ?string $clientId = null): void
+    {
+        $payload = [
+            'client_id' => $clientId ?: ('server.' . time() . '.' . random_int(1000000, 9999999)),
+            'events' => [
+                [
+                    'name' => $eventName,
+                    'params' => $params,
+                ],
+            ],
+        ];
+
+        $this->post($payload, $params['transaction_id'] ?? $eventName);
+    }
+
     public function sendPurchase(int $orderId, string $clientId): void
     {
         $order = $this->orderRepository->get($orderId);
@@ -66,6 +85,11 @@ class MeasurementProtocol
             ],
         ];
 
+        $this->post($payload, $order->getIncrementId());
+    }
+
+    private function post(array $payload, string $label): void
+    {
         $measurementId = $this->config->getMeasurementId();
         $apiSecret = $this->config->getApiSecret();
         $isDebug = $this->config->isDebugMode();
@@ -82,8 +106,7 @@ class MeasurementProtocol
             $this->logger->info('[MageMe_GA4] MP Request', [
                 'url' => $baseUrl,
                 'measurement_id' => $measurementId,
-                'order' => $order->getIncrementId(),
-                'client_id' => $clientId,
+                'label' => $label,
                 'body' => $body,
             ]);
         }
@@ -97,7 +120,7 @@ class MeasurementProtocol
 
             if ($isDebug) {
                 $this->logger->info('[MageMe_GA4] MP Response', [
-                    'order' => $order->getIncrementId(),
+                    'label' => $label,
                     'status' => $status,
                     'response' => $response,
                 ]);
@@ -105,14 +128,14 @@ class MeasurementProtocol
 
             if ($status < 200 || $status >= 300) {
                 $this->logger->error('[MageMe_GA4] MP request failed', [
-                    'order' => $order->getIncrementId(),
+                    'label' => $label,
                     'status' => $status,
                     'response' => $response,
                 ]);
             }
         } catch (\Exception $e) {
             $this->logger->error('[MageMe_GA4] MP request exception', [
-                'order' => $order->getIncrementId(),
+                'label' => $label,
                 'error' => $e->getMessage(),
             ]);
         }

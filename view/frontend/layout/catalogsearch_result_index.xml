@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="MageMe\GA4\Block\Search"
+                   name="mageme_ga4_search"
+                   template="MageMe_GA4::search.phtml"
+                   after="-"
+                   ifconfig="mageme_ga4/general/active"/>
+        </referenceContainer>
+    </body>
+</page>
