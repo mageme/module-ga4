@@ -13,7 +13,8 @@ Tracks 14 GA4 events client-side via `gtag.js`, with optional server-side purcha
 
 - Magento 2.4.6+
 - PHP 8.1+
-- [Breeze Frontend](https://breezefront.com/) theme (checkout fallback via RequireJS also supported)
+
+Compatible with Luma and [Breeze](https://breezefront.com/) themes.
 
 ## Events
 
