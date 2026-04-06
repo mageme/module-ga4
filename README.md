@@ -14,7 +14,7 @@ Sends ecommerce events using `zaraz.ecommerce()` on the client side, with option
 - Magento 2.4.6+
 - PHP 8.1+
 - Cloudflare Zaraz with GA4 tool configured (ecommerce enabled)
-- [Breeze Frontend](https://breezefront.com/) theme
+- [Breeze Frontend](https://breezefront.com/) theme (Luma is not supported)
 
 ## Events
 
