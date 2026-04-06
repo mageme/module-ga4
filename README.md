@@ -56,8 +56,8 @@ bin/magento setup:upgrade
 
 - [WebForms Pro](https://mageme.com/magento-2-form-builder.html) — Advanced form builder for Magento 2
 - [WebForms Lite](https://mageme.com/free-magento-2-contact-form.html) — Free contact form for Magento 2
-- [EasyQuote](https://mageme.com/magento-2-request-for-quote.html) — Request for Quote extension
-- [HidePrice](https://mageme.com/magento-2-hide-price-extension.html) — Hide price & Add to Cart for guest visitors
+- [EasyQuote](https://mageme.com/magento-2-request-for-quote.html) — Request a quote directly from the shopping cart
+- [HidePrice](https://mageme.com/magento-2-hide-price-extension.html) — Hide price & Add to Cart for guest visitors, with built-in quote request form
 
 ## License
 
