@@ -77,7 +77,7 @@ class ViewItem extends Template
 
     public function isEnabled(): bool
     {
-        return $this->config->isEnabled();
+        return $this->config->isEnabled() && $this->config->isEventEnabled('view_item');
     }
 
     private function getProduct(): ?Product

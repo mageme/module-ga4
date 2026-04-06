@@ -15,3 +15,4 @@
 - Breeze-compatible JS component with RequireJS fallback for checkout
 - Admin configuration: enable/disable, Measurement ID, API Secret, server-side toggle, debug mode
 - Debug mode with request/response logging to `var/log/mageme_ga4.log`
+- Per-event toggle via multiselect in admin (enable/disable individual events including `page_view`)

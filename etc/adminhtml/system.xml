@@ -14,7 +14,7 @@
                        showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                    <comment>Enable GA4 ecommerce tracking via Cloudflare Zaraz.</comment>
+                    <comment>Enable GA4 ecommerce tracking.</comment>
                 </field>
                 <field id="measurement_id" translate="label comment" type="text" sortOrder="20"
                        showInDefault="1" showInWebsite="1" showInStore="1">
@@ -38,6 +38,13 @@
                     <label>Debug Mode</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Log Measurement Protocol requests to var/log/mageme_ga4.log and use GA4 debug endpoint.</comment>
+                </field>
+                <field id="enabled_events" translate="label comment" type="multiselect" sortOrder="60"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled Events</label>
+                    <source_model>MageMe\GA4\Model\Config\Source\Events</source_model>
+                    <comment>Select which GA4 events to track. Disable page_view if using Zaraz or GTM.</comment>
+                    <can_be_empty>1</can_be_empty>
                 </field>
             </group>
         </section>

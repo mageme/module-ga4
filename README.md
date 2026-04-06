@@ -60,6 +60,7 @@ bin/magento setup:upgrade
 | API Secret | Measurement Protocol API secret (for server-side tracking) |
 | Server-side Purchase Tracking | Send purchase events via Measurement Protocol as fallback |
 | Debug Mode | Log MP requests to `var/log/mageme_ga4.log` |
+| Enabled Events | Multiselect — choose which GA4 events to track. Disable `page_view` if using Zaraz or GTM |
 
 ## How It Works
 

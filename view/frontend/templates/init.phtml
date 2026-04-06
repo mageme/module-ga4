@@ -1,17 +1,20 @@
 <?php
 /**
- * @var \MageMe\GA4\Block\Currency $block
+ * @var \MageMe\GA4\Block\Init $block
  * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
  */
 $measurementId = $block->escapeJs($block->getMeasurementId());
 $currency = $block->escapeJs($block->getCurrencyCode());
+$disabledEvents = $block->getDisabledEventsJson();
+$sendPageView = $block->isSendPageView() ? 'true' : 'false';
 
 $scriptString = <<<SCRIPT
 window.mgmGa4Currency = '{$currency}';
+window.mgmGa4DisabledEvents = {$disabledEvents};
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '{$measurementId}', {send_page_view: false, allow_google_signals: false});
+gtag('config', '{$measurementId}', {send_page_view: {$sendPageView}, allow_google_signals: false});
 
 {
     let loaded = false;

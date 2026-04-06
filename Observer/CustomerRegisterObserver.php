@@ -22,7 +22,7 @@ class CustomerRegisterObserver implements ObserverInterface
 
     public function execute(Observer $observer): void
     {
-        if (!$this->config->isEnabled()) {
+        if (!$this->config->isEnabled() || !$this->config->isEventEnabled('sign_up')) {
             return;
         }
 

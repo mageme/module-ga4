@@ -3,9 +3,9 @@
       xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <body>
         <referenceContainer name="before.body.end">
-            <block class="MageMe\GA4\Block\Currency"
-                   name="mageme_ga4_currency"
-                   template="MageMe_GA4::currency.phtml"
+            <block class="MageMe\GA4\Block\Init"
+                   name="mageme_ga4_init"
+                   template="MageMe_GA4::init.phtml"
                    ifconfig="mageme_ga4/general/active"/>
         </referenceContainer>
     </body>

@@ -9,6 +9,7 @@
                 <api_secret/>
                 <server_side_purchase>1</server_side_purchase>
                 <debug>0</debug>
+                <enabled_events>page_view,view_item,view_item_list,select_item,add_to_cart,remove_from_cart,view_cart,begin_checkout,purchase,search,login,sign_up,add_to_wishlist,add_to_compare</enabled_events>
             </general>
         </mageme_ga4>
     </default>

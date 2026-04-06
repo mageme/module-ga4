@@ -33,6 +33,7 @@ class SendMeasurementProtocolObserver implements ObserverInterface
     public function execute(EventObserver $observer): void
     {
         if (!$this->config->isEnabled()
+            || !$this->config->isEventEnabled('purchase')
             || !$this->config->isServerSidePurchaseEnabled()
             || !$this->config->getApiSecret()
         ) {

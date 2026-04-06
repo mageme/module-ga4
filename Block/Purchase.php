@@ -70,6 +70,6 @@ class Purchase extends Template
 
     public function isEnabled(): bool
     {
-        return $this->config->isEnabled();
+        return $this->config->isEnabled() && $this->config->isEventEnabled('purchase');
     }
 }

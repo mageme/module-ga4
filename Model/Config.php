@@ -46,4 +46,30 @@ class Config
     {
         return $this->scopeConfig->isSetFlag(self::XML_PATH_DEBUG);
     }
+
+    public function getEnabledEvents(?int $storeId = null): array
+    {
+        $value = (string) $this->scopeConfig->getValue(
+            'mageme_ga4/general/enabled_events',
+            ScopeInterface::SCOPE_STORE,
+            $storeId
+        );
+        return $value !== '' ? explode(',', $value) : [];
+    }
+
+    public function isEventEnabled(string $eventName, ?int $storeId = null): bool
+    {
+        return in_array($eventName, $this->getEnabledEvents($storeId), true);
+    }
+
+    /**
+     * Returns list of disabled JS-only events (add_to_cart, remove_from_cart, select_item)
+     * for passing to frontend tracker.
+     */
+    public function getDisabledJsEvents(?int $storeId = null): array
+    {
+        $jsEvents = ['add_to_cart', 'remove_from_cart', 'select_item'];
+        $enabled = $this->getEnabledEvents($storeId);
+        return array_values(array_diff($jsEvents, $enabled));
+    }
 }

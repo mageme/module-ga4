@@ -3,6 +3,7 @@ define([], function () {
 
     return function (config) {
         const track = (event, params) => {
+            if (window.mgmGa4DisabledEvents?.includes(event)) return;
             if (typeof gtag === 'function') {
                 gtag('event', event, params);
             }

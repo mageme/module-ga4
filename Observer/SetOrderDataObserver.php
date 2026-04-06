@@ -22,7 +22,7 @@ class SetOrderDataObserver implements ObserverInterface
 
     public function execute(EventObserver $observer): void
     {
-        if (!$this->config->isEnabled()) {
+        if (!$this->config->isEnabled() || !$this->config->isEventEnabled('purchase')) {
             return;
         }
 

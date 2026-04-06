@@ -9,7 +9,7 @@ use Magento\Framework\Serialize\SerializerInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 
-class Search extends Template
+class Init extends Template
 {
     private Config $config;
     private SerializerInterface $serializer;
@@ -25,20 +25,26 @@ class Search extends Template
         parent::__construct($context, $data);
     }
 
-    public function getTrackingData(): string
+    public function getCurrencyCode(): string
     {
-        $query = $this->getRequest()->getParam('q');
-        if (!$query) {
-            return '';
-        }
-
-        return $this->serializer->serialize([
-            'search_term' => $query,
-        ]);
+        return $this->_storeManager->getStore()->getCurrentCurrencyCode();
     }
 
-    public function isEnabled(): bool
+    public function getMeasurementId(): string
     {
-        return $this->config->isEnabled() && $this->config->isEventEnabled('search');
+        return $this->config->getMeasurementId();
+    }
+
+    /**
+     * Returns JSON array of disabled JS-only events for the frontend tracker.
+     */
+    public function getDisabledEventsJson(): string
+    {
+        return $this->serializer->serialize($this->config->getDisabledJsEvents());
+    }
+
+    public function isSendPageView(): bool
+    {
+        return $this->config->isEventEnabled('page_view');
     }
 }

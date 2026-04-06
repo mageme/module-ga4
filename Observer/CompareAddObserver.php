@@ -28,7 +28,7 @@ class CompareAddObserver implements ObserverInterface
 
     public function execute(Observer $observer): void
     {
-        if (!$this->config->isEnabled()) {
+        if (!$this->config->isEnabled() || !$this->config->isEventEnabled('add_to_compare')) {
             return;
         }
 
