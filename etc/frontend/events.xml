@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="checkout_onepage_controller_success_action">
+        <observer name="mageme_ga4_order_success"
+                  instance="MageMe\GA4\Observer\SetOrderDataObserver"/>
+        <observer name="mageme_ga4_measurement_protocol"
+                  instance="MageMe\GA4\Observer\SendMeasurementProtocolObserver"/>
+    </event>
+</config>

@@ -1,0 +1,30 @@
+<?php
+/** @var \MageMe\GA4\Block\ViewItem $block */
+if (!$block->isEnabled()) {
+    return;
+}
+
+$trackingData = $block->getTrackingData();
+if (!$trackingData) {
+    return;
+}
+?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "MageMe_GA4/js/tracker": {
+            "event": "Product Viewed",
+            "data": <?= /* @noEscape */ $trackingData ?>
+        }
+    }
+}
+</script>
+<script>
+(function () {
+    var form = document.getElementById('product_addtocart_form');
+    if (form) {
+        form.setAttribute('data-ga4-product', '<?= /* @noEscape */ $block->escapeJs($block->getProductJson()) ?>');
+    }
+    window.mgmGa4Currency = '<?= /* @noEscape */ $block->escapeJs($block->getCurrencyCode()) ?>';
+})();
+</script>

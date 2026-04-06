@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <mageme_ga4>
+            <general>
+                <active>0</active>
+                <measurement_id>G-T2F6VEME39</measurement_id>
+                <api_secret/>
+                <server_side_purchase>1</server_side_purchase>
+                <debug>0</debug>
+            </general>
+        </mageme_ga4>
+    </default>
+</config>

@@ -1,0 +1,17 @@
+<?php
+/** @var \MageMe\GA4\Block\Purchase $block */
+$trackingData = $block->getTrackingData();
+if (!$trackingData) {
+    return;
+}
+?>
+<script type="text/x-magento-init">
+{
+    "*": {
+        "MageMe_GA4/js/tracker": {
+            "event": "Purchase",
+            "data": <?= /* @noEscape */ $trackingData ?>
+        }
+    }
+}
+</script>

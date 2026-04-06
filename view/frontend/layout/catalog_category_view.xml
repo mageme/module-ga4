@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="MageMe\GA4\Block\ViewItemList"
+                   name="mageme_ga4_view_item_list"
+                   template="MageMe_GA4::view_item_list.phtml"
+                   after="-"
+                   ifconfig="mageme_ga4/general/active"/>
+        </referenceContainer>
+    </body>
+</page>
