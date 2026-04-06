@@ -7,6 +7,7 @@
                    name="mageme_ga4_begin_checkout"
                    template="MageMe_GA4::begin_checkout.phtml"
                    after="-"
+                   cacheable="false"
                    ifconfig="mageme_ga4/general/active"/>
         </referenceContainer>
     </body>
