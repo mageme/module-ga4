@@ -1,29 +1,33 @@
 <?php
-/** @var \MageMe\GA4\Block\Currency $block */
+/**
+ * @var \MageMe\GA4\Block\Currency $block
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
 $measurementId = $block->escapeJs($block->getMeasurementId());
 $currency = $block->escapeJs($block->getCurrencyCode());
-?>
-<script>
-window.mgmGa4Currency = '<?= $currency ?>';
+
+$scriptString = <<<SCRIPT
+window.mgmGa4Currency = '{$currency}';
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '<?= $measurementId ?>', {send_page_view: false});
+gtag('config', '{$measurementId}', {send_page_view: false, allow_google_signals: false});
 
-(function() {
-    var loaded = false;
-    function loadGtag() {
+{
+    let loaded = false;
+    const loadGtag = () => {
         if (loaded) return;
         loaded = true;
-        var s = document.createElement('script');
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=<?= $measurementId ?>';
+        const s = document.createElement('script');
+        s.src = 'https://www.googletagmanager.com/gtag/js?id={$measurementId}';
         s.async = true;
         document.head.appendChild(s);
-    }
-    var events = ['scroll', 'click', 'touchstart', 'mousemove', 'keydown'];
-    events.forEach(function(e) {
-        document.addEventListener(e, loadGtag, {once: true, passive: true});
-    });
+    };
+    ['scroll', 'click', 'touchstart', 'mousemove', 'keydown'].forEach(
+        (e) => document.addEventListener(e, loadGtag, {once: true, passive: true})
+    );
     setTimeout(loadGtag, 3500);
-})();
-</script>
+}
+SCRIPT;
+?>
+<?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>

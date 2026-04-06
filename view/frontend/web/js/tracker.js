@@ -2,17 +2,16 @@ define([], function () {
     'use strict';
 
     return function (config) {
-        var track = function (event, params) {
+        const track = (event, params) => {
             if (typeof gtag === 'function') {
                 gtag('event', event, params);
             }
         };
 
-        var event = config.event;
-        var data = config.data;
+        const { event, data } = config;
 
         if (event === 'Purchase' && data.orders) {
-            data.orders.forEach(function (order) { track('purchase', order); });
+            data.orders.forEach((order) => track('purchase', order));
             return;
         }
 
@@ -23,11 +22,11 @@ define([], function () {
             return;
         }
 
-        var eventMap = {
+        const eventMap = {
             'Product Viewed': 'view_item',
             'Checkout Started': 'begin_checkout',
             'view_cart': 'view_cart',
-            'search': 'search'
+            'search': 'search',
         };
 
         track(eventMap[event] || event, data);

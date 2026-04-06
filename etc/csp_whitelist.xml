@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<csp_whitelist xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Csp:etc/csp_whitelist.xsd">
+    <policies>
+        <policy id="script-src">
+            <values>
+                <value id="googletagmanager" type="host">https://www.googletagmanager.com</value>
+                <value id="google_analytics" type="host">https://www.google-analytics.com</value>
+                <value id="google_analytics_ssl" type="host">https://ssl.google-analytics.com</value>
+                <value id="google_ads" type="host">https://googleads.g.doubleclick.net</value>
+                <value id="google_tag" type="host">https://*.google.com</value>
+            </values>
+        </policy>
+        <policy id="connect-src">
+            <values>
+                <value id="google_analytics" type="host">https://www.google-analytics.com</value>
+                <value id="google_analytics_region" type="host">https://region1.google-analytics.com</value>
+                <value id="google_ads" type="host">https://googleads.g.doubleclick.net</value>
+                <value id="google_tag" type="host">https://*.google.com</value>
+                <value id="analytics_google" type="host">https://analytics.google.com</value>
+                <value id="analytics_google_region" type="host">https://*.analytics.google.com</value>
+            </values>
+        </policy>
+        <policy id="img-src">
+            <values>
+                <value id="google_analytics" type="host">https://www.google-analytics.com</value>
+                <value id="google_ads" type="host">https://www.googleadservices.com</value>
+                <value id="google_tag" type="host">https://www.googletagmanager.com</value>
+                <value id="google_doubleclick" type="host">https://googleads.g.doubleclick.net</value>
+            </values>
+        </policy>
+    </policies>
+</csp_whitelist>
