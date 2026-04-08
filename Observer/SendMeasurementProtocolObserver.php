@@ -46,6 +46,13 @@ class SendMeasurementProtocolObserver implements ObserverInterface
         }
 
         $clientId = $this->extractClientId();
+        if ($clientId === null) {
+            $this->logger->info(
+                '[MageMe_GA4] Skipping MP purchase: no GA client_id (ad-blocker or missing cookie)',
+                ['order_ids' => $orderIds]
+            );
+            return;
+        }
 
         foreach ($orderIds as $orderId) {
             try {
@@ -60,12 +67,13 @@ class SendMeasurementProtocolObserver implements ObserverInterface
     }
 
     /**
-     * Extract client_id from _ga cookie.
-     * Cookie format: GA1.1.XXXXXXXXX.XXXXXXXXX — client_id is the last two segments.
-     * Falls back to a generated UUID if cookie is absent.
+     * Extract client_id from _ga cookie or our backup mgm_ga4_cid cookie.
+     * Returns null if no valid client_id is available — server-side event
+     * should be skipped to avoid orphaned transactions in GA4 funnels.
      */
-    private function extractClientId(): string
+    private function extractClientId(): ?string
     {
+        // Primary: Google's _ga cookie (format GA1.1.XXXXXXXXX.XXXXXXXXX)
         $gaCookie = $this->cookieManager->getCookie('_ga');
         if ($gaCookie) {
             $parts = explode('.', $gaCookie);
@@ -74,7 +82,12 @@ class SendMeasurementProtocolObserver implements ObserverInterface
             }
         }
 
-        // Fallback: generate a pseudo-random client_id
-        return sprintf('%d.%d', random_int(1000000000, 9999999999), time());
+        // Fallback: our backup cookie set by tracker.js (survives payment redirects)
+        $backupCid = $this->cookieManager->getCookie('mgm_ga4_cid');
+        if ($backupCid && str_contains($backupCid, '.')) {
+            return $backupCid;
+        }
+
+        return null;
     }
 }

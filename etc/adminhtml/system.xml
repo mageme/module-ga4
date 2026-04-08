@@ -39,6 +39,18 @@
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <comment>Log Measurement Protocol requests to var/log/mageme_ga4.log and use GA4 debug endpoint.</comment>
                 </field>
+                <field id="load_gtag" translate="label comment" type="select" sortOrder="52"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Load gtag.js Script</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Load Google's <code>gtag.js</code> script. Set to <strong>No</strong> if using GTM, Zaraz, or another tag manager that already provides gtag.]]></comment>
+                </field>
+                <field id="zaraz_ecommerce" translate="label comment" type="select" sortOrder="54"
+                       showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Zaraz Ecommerce</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment><![CDATA[Send events via Cloudflare Zaraz (<code>zaraz.ecommerce()</code> / <code>zaraz.track()</code>) instead of <code>gtag()</code>. Requires Zaraz enabled on the domain.]]></comment>
+                </field>
                 <field id="enabled_events" translate="label comment" type="multiselect" sortOrder="60"
                        showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enabled Events</label>

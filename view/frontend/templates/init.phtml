@@ -7,12 +7,26 @@ $measurementId = $block->escapeJs($block->getMeasurementId());
 $currency = $block->escapeJs($block->getCurrencyCode());
 $disabledEvents = $block->getDisabledEventsJson();
 $sendPageView = $block->isSendPageView() ? 'true' : 'false';
+$trackingMode = $block->getTrackingMode();
+$isZaraz = ($trackingMode === 'zaraz');
+$loadGtag = $block->isLoadGtagEnabled() && !$isZaraz;
 
 $scriptString = <<<SCRIPT
 window.mgmGa4Currency = '{$currency}';
 window.mgmGa4DisabledEvents = {$disabledEvents};
+window.mgmGa4TrackingMode = '{$trackingMode}';
+SCRIPT;
+
+if (!$isZaraz) {
+    $scriptString .= <<<SCRIPT
+
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
+SCRIPT;
+
+    if ($loadGtag) {
+        $scriptString .= <<<SCRIPT
+
 gtag('js', new Date());
 gtag('config', '{$measurementId}', {send_page_view: {$sendPageView}, allow_google_signals: false});
 
@@ -32,5 +46,7 @@ gtag('config', '{$measurementId}', {send_page_view: {$sendPageView}, allow_googl
     setTimeout(loadGtag, 3500);
 }
 SCRIPT;
+    }
+}
 ?>
 <?= /* @noEscape */ $secureRenderer->renderTag('script', [], $scriptString, false) ?>

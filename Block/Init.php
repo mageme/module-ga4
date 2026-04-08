@@ -47,4 +47,19 @@ class Init extends Template
     {
         return $this->config->isEventEnabled('page_view');
     }
+
+    public function isLoadGtagEnabled(): bool
+    {
+        return $this->config->isLoadGtagEnabled();
+    }
+
+    public function isZarazEcommerceEnabled(): bool
+    {
+        return $this->config->isZarazEcommerceEnabled();
+    }
+
+    public function getTrackingMode(): string
+    {
+        return $this->config->isZarazEcommerceEnabled() ? 'zaraz' : 'gtag';
+    }
 }
