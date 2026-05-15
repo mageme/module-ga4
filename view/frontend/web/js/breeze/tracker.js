@@ -58,7 +58,11 @@
 
         if (event === 'purchase') {
             if (result.transaction_id !== undefined) { result.order_id = result.transaction_id; delete result.transaction_id; }
-            if (result.value !== undefined) { result.revenue = result.value; delete result.value; }
+            if (result.value !== undefined) {
+                result.total = result.value;
+                result.revenue = result.value;
+                delete result.value;
+            }
         }
 
         return result;
