@@ -54,9 +54,11 @@ class SendMeasurementProtocolObserver implements ObserverInterface
             return;
         }
 
+        $sessionId = $this->extractSessionId();
+
         foreach ($orderIds as $orderId) {
             try {
-                $this->measurementProtocol->sendPurchase((int) $orderId, $clientId);
+                $this->measurementProtocol->sendPurchase((int) $orderId, $clientId, $sessionId);
             } catch (\Exception $e) {
                 $this->logger->error('[MageMe_GA4] Failed to send MP purchase', [
                     'order_id' => $orderId,
@@ -87,6 +89,41 @@ class SendMeasurementProtocolObserver implements ObserverInterface
         if ($backupCid && str_contains($backupCid, '.')) {
             return $backupCid;
         }
+
+        return null;
+    }
+
+    /**
+     * Extract the GA4 session_id from the _ga_<container> cookie so the
+     * server-side purchase is joined to the on-site session and inherits its
+     * traffic source. Supports both GS1 (dot-delimited) and GS2 ($-delimited)
+     * cookie layouts; logs and returns null on an unrecognised layout so a
+     * future cookie-format change surfaces instead of silently reverting to
+     * Direct attribution.
+     */
+    private function extractSessionId(): ?string
+    {
+        $measurementId = $this->config->getMeasurementId();
+        $container = str_starts_with($measurementId, 'G-')
+            ? substr($measurementId, 2)
+            : $measurementId;
+        if ($container === '') {
+            return null;
+        }
+
+        $cookie = $this->cookieManager->getCookie('_ga_' . $container);
+        if ($cookie === null || $cookie === '') {
+            return null;
+        }
+
+        if (preg_match('/^GS\d+\.\d+\.s?(\d+)/', $cookie, $matches)) {
+            return $matches[1];
+        }
+
+        $this->logger->info(
+            '[MageMe_GA4] Unrecognised _ga session cookie layout; purchase session_id unavailable',
+            ['cookie_prefix' => substr($cookie, 0, 8)]
+        );
 
         return null;
     }

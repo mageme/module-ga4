@@ -54,7 +54,7 @@ class MeasurementProtocol
         $this->post($payload, $params['transaction_id'] ?? $eventName);
     }
 
-    public function sendPurchase(int $orderId, string $clientId): void
+    public function sendPurchase(int $orderId, string $clientId, ?string $sessionId = null): void
     {
         $order = $this->orderRepository->get($orderId);
 
@@ -68,19 +68,25 @@ class MeasurementProtocol
             ];
         }
 
+        $params = [
+            'transaction_id' => $order->getIncrementId(),
+            'value' => (float) number_format((float) $order->getGrandTotal(), 2, '.', ''),
+            'tax' => (float) number_format((float) $order->getTaxAmount(), 2, '.', ''),
+            'shipping' => (float) number_format((float) $order->getShippingAmount(), 2, '.', ''),
+            'currency' => $order->getOrderCurrencyCode(),
+            'items' => $items,
+        ];
+
+        if ($sessionId !== null && $sessionId !== '') {
+            $params['session_id'] = $sessionId;
+        }
+
         $payload = [
             'client_id' => $clientId,
             'events' => [
                 [
                     'name' => 'purchase',
-                    'params' => [
-                        'transaction_id' => $order->getIncrementId(),
-                        'value' => (float) number_format((float) $order->getGrandTotal(), 2, '.', ''),
-                        'tax' => (float) number_format((float) $order->getTaxAmount(), 2, '.', ''),
-                        'shipping' => (float) number_format((float) $order->getShippingAmount(), 2, '.', ''),
-                        'currency' => $order->getOrderCurrencyCode(),
-                        'items' => $items,
-                    ],
+                    'params' => $params,
                 ],
             ],
         ];

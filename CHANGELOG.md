@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.1 - 2026-07-23
+
+### Fixed
+- Server-side Measurement Protocol `purchase` now sends the GA4 `session_id` (read from the `_ga_<container>` cookie), so server-recovered purchases join the on-site session and keep their traffic source instead of being attributed to Direct
+
 ## 1.0.0 - 2026-04-06
 
 ### Added
